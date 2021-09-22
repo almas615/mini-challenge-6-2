@@ -55,7 +55,7 @@ app.post('/users/update/:id', (req, res) => {
     });
 });
 
-app.get('/articles/update/:id', (req, res) => {
+app.get('/users/update/:id', (req, res) => {
     User.findOne({
         where: {
             id: req.params.id
