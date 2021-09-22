@@ -6,6 +6,9 @@ const {
 } = require('./models');
 
 app.use(express.json());
+app.use(express.urlencoded({
+    extended: false
+}));
 
 app.get('/users', (req, res) => {
     User.findAll().then((users) => {
@@ -22,6 +25,46 @@ app.post('/users', (req, res) => {
         res.status(201).json(user);
     }).catch((err) => {
         res.status(422).json("Can't create user");
+    });
+});
+
+app.get('/users/delete/:id', (req, res) => {
+    User.destroy({
+        where: {
+            id: req.params.id
+        }
+    }).then(() => {
+        res.status(200).json("User deleted successfully");
+    }).catch((err) => {
+        res.status(422).json("Can’t delete User");
+    });
+});
+
+app.post('/users/update/:id', (req, res) => {
+    User.update({
+        username: req.body.username,
+        password: req.body.password
+    }, {
+        where: {
+            id: req.params.id
+        }
+    }).then((user) => {
+        res.status(200).json(user);
+    }).catch((err) => {
+        res.status(422).json("Can't update user");
+    });
+});
+
+app.get('/articles/update/:id', (req, res) => {
+    User.findOne({
+        where: {
+            id: req.params.id
+        }
+    }).then((user) => {
+        // res.render('update', {
+        //     User
+        // })
+        res.status(200).json(user);
     });
 });
 
